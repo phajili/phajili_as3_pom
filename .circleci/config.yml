@@ -1,0 +1,15 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:11.0.1-jdk
+
+    working_directory: ~/phajili_as3_pom
+
+    steps:
+      - checkout
+
+      - run: mvn clean package
+
+      - run: mvn clean compile package jib:build -Djib.to.auth.username=$DOCKER_USER -Djib.to.auth.password=$DOCKER_PASS -Dimage=phajili2021/phajili_as3_pom:$CIRCLE_BUILD_NUM
